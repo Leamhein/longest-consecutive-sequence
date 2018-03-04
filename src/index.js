@@ -1,23 +1,23 @@
 module.exports = function longestConsecutiveLength(array) {
-  var n = 1; //counter
-  if (array.length > 0) {
-    var nmax = 1; //max counter
-  } else {
-    nmax = 0;
+  let set = new Set(array), //create new Set from array
+  count =  1,
+  maxCount = 1,
+  currentNum;
+  if (array.length == 0) { //if array is empty -> count = 0;
+    return 0;
   };
-  array.sort((a, b) => a - b); //sorting our array
-  for (let i = 1, length = array.length; i < length; i++) { //starting to count
-    if (array[i] == array[i-1] + 1) { //if elements goes consistently
-      ++n; // +1 to our counter
-      if (n > nmax) {
-        nmax = n; //update the max counter
-      };
-      } else {
-        if (array[i] == array[i-1]) { //if there is a dublicate -> do nothing(skip it)
-        } else {
-          n = 1; //else -> reset the counter
-        };
+  for (let key of set) { //find the initial number in the sequence
+    if (!set.has(key - 1)) {
+      currentNum = key;
+      count = 1;
+    };
+    while (set.has(currentNum + 1)) { //count the sequence
+      count++;
+      currentNum++;
+      if (maxCount < count) { //if this the biggest count
+        maxCount = count;
       };
     };
-  return nmax;
   };
+  return maxCount;
+};
